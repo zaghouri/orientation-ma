@@ -5,6 +5,7 @@ require('dotenv').config();
 const { connectDB } = require('./config/database');
 const { Student, Career, Assessment } = require('./models');
 const authRoutes = require('./routes/auth');
+const studentRoutes = require('./routes/students');
 const authenticateJWT = require('./middleware/authMiddleware');
 
 const app = express();
@@ -19,8 +20,9 @@ app.get('/', (req, res) => {
   res.json({ message: 'Server is running', timestamp: new Date() });
 });
 
-// Authentication routes (public)
+// Routes
 app.use('/auth', authRoutes);
+app.use('/students', studentRoutes);
 
 // Protected route example
 app.get('/protected', authenticateJWT, (req, res) => {
