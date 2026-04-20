@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
+const { connectDB } = require('./config/database');
+const { Student, Career, Assessment } = require('./models');
 const authRoutes = require('./routes/auth');
 const authenticateJWT = require('./middleware/authMiddleware');
 
@@ -29,8 +31,22 @@ app.get('/protected', authenticateJWT, (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+async function startServer() {
+  try {
+    // Connect to MongoDB
+    await connectDB();
+    
+    // Start listening
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+// Start the server
+startServer();
 
 module.exports = app;
