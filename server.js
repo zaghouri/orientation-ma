@@ -6,6 +6,7 @@ const { connectDB } = require('./config/database');
 const { Student, Career, Assessment } = require('./models');
 const authRoutes = require('./routes/auth');
 const studentRoutes = require('./routes/students');
+const careerRoutes = require('./routes/careers');
 const authenticateJWT = require('./middleware/authMiddleware');
 
 const app = express();
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 // Routes
 app.use('/auth', authRoutes);
 app.use('/students', studentRoutes);
+app.use('/careers', careerRoutes);
 
 // Protected route example
 app.get('/protected', authenticateJWT, (req, res) => {
